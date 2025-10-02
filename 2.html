@@ -1,0 +1,72 @@
+import React, { useEffect, useMemo, useState } from "react";
+>
+{useMock ? "Mock Data" : "Live API"}
+</Toggle>
+<Button variant="outline" onClick={() => fetchCategory(active)} className="gap-2 rounded-2xl">
+<RefreshCw className="w-4 h-4" /> Refresh
+</Button>
+</div>
+</div>
+
+
+{/* Articles */}
+<section className="grid md:grid-cols-3 gap-4">
+{loading && (
+<Card className="md:col-span-3">
+<CardContent className="py-8 text-center text-gray-500">Loading…</CardContent>
+</Card>
+)}
+
+
+{!loading && top3.map((a) => (
+<Card key={a.id} className="rounded-2xl shadow-sm">
+<CardHeader>
+<CardTitle className="text-base leading-snug">
+{a.title}
+</CardTitle>
+<div className="mt-1 text-sm text-gray-500">
+<span className="font-medium">{a.outlet}</span>
+{a.published_at && (
+<span className="ml-2">· {new Date(a.published_at).toLocaleDateString()}</span>
+)}
+</div>
+</CardHeader>
+<CardContent className="space-y-3">
+<div className="flex items-center gap-4 text-sm text-gray-600">
+<span className="inline-flex items-center gap-1"><Eye className="w-4 h-4" /> {fmt(a.views)}</span>
+<span className="inline-flex items-center gap-1"><MessageSquare className="w-4 h-4" /> {fmt(a.comments)}</span>
+{a.url && (
+<a href={a.url} target="_blank" rel="noreferrer" className="inline-flex items-center gap-1 hover:underline">
+Source <ExternalLink className="w-3 h-3" />
+</a>
+)}
+</div>
+
+
+<article className="prose prose-sm max-w-none prose-p:leading-relaxed">
+<p>{a.content}</p>
+</article>
+</CardContent>
+</Card>
+))}
+</section>
+
+
+{/* Empty state */}
+{!loading && top3.length === 0 && (
+<div className="text-center text-gray-500 py-12">No articles found for this category. Try switching data source.</div>
+)}
+
+
+{/* Footer note */}
+<div className="mt-10 text-xs text-gray-500 leading-relaxed">
+<p>
+※ This interface displays article bodies with improved readability for study purposes. In production,
+ensure your backend follows each publisher’s terms of service and copyright law. Consider storing only
+the text you’re permitted to process, and keep attribution (outlet, original URL, and date).
+</p>
+</div>
+</main>
+</div>
+);
+}
